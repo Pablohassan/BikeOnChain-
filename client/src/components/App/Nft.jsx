@@ -153,9 +153,8 @@ function Nft({ setLoading }) {
           <Col>
             <Row justify="flex-end">
               <Badge
-                bordered
-                flat
-                auto
+                
+                
                 color={statusToColor(Number(bike.status))}
               >
                 <Text
@@ -182,7 +181,7 @@ function Nft({ setLoading }) {
         </Grid>
         <Grid css={{ margin: "auto" }} size={6}>
           <Button
-            isHoverable
+           
             size="lg"
             css={{ mt: "50px", minWidth: "160px" }}
             shadow
@@ -195,7 +194,7 @@ function Nft({ setLoading }) {
             </Text>
           </Button>
           <Button
-            isHoverable
+           
             size="lg"
             css={{ mt: "10px", minWidth: "160px" }}
             shadow
@@ -208,12 +207,12 @@ function Nft({ setLoading }) {
             </Text>
           </Button>
           <Button
-            isHoverable
+           
             size="lg"
             css={{ mt: "10px", minWidth: "160px" }}
             shadow
             color="gradient"
-            auto
+            
           >
             <Link
               href={`https://testnets.opensea.io/assets/mumbai/${collectionAddr}/${tokenId}`}
@@ -230,12 +229,12 @@ function Nft({ setLoading }) {
             </Link>
           </Button>
           <Button
-            isHoverable
+           
             color="gradient"
             size="lg"
             css={{ mt: "10px", minWidth: "160px" }}
             shadow
-            auto
+            
           >
             <Link
               href={`https://mumbai.polygonscan.com/address/${collectionAddr}`}
