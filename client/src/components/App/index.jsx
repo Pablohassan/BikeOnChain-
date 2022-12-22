@@ -13,6 +13,7 @@ import useEth from "../contexts/EthContext/useEth";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import CertificateGroups from "./CertificateGroups";
+import { useMediaQuery } from 'react-responsive'
 import Nft from "./Nft";
 
 function App() {
@@ -22,13 +23,19 @@ function App() {
 
   const [loading, setLoading] = useState(false);
 
+
+  const isMobile = useMediaQuery({ query: '(max-width 450: px)' })
+  const isDesktop= useMediaQuery({ query: '(mix-width 451: px)' })
+
   return (
+
+    
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        minWidth: 900,
+       
       }}
     >
       <Header />

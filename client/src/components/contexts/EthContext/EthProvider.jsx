@@ -22,8 +22,9 @@ function EthProvider({ children }) {
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err);
+        
       }
-
+     
       dispatch({
         type: actions.init,
         data: {

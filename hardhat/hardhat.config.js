@@ -1,16 +1,18 @@
 require("dotenv").config();
 require("@nomicfoundation/hardhat-toolbox");
-require("dotenv").config();
+require("hardhat-gas-reporter");
 
 const { PROVIDER_URL, PRIVATE_KEY } = process.env;
 
 module.exports = {
   solidity: {
     version: "0.8.17",
+
     settings: {
       viaIR: true,
       optimizer: {
         enabled: true,
+        runs: 1000,
       },
     },
   },
@@ -24,6 +26,9 @@ module.exports = {
     apiKey: process.env.POLYGONSCAN_API_KEY
   },
   gasReporter: {
-    enabled: true
+    enabled: true,
+      currency: 'EUR',
+      gasPrice: 21
+    
   }
 };

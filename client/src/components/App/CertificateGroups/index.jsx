@@ -70,7 +70,7 @@ function CertificateGroups({ setLoading }) {
 
   async function handleTransfer(event) {
     event.preventDefault();
-
+    setTransferModal(null);
     setLoading(true);
 
     try {
@@ -92,7 +92,7 @@ function CertificateGroups({ setLoading }) {
       toast.error("Impossible de transférer vers le revendeur");
     }
 
-    setTransferModal(null);
+    
     setLoading(false);
   }
 

@@ -1,9 +1,9 @@
 import { Text } from "@nextui-org/react";
-import video from "../../../assets/videos/pexels-pavel-danilyuk-5790079.mp4";
+import video from "../../../assets/videos/videoplayback.mp4";
 import polygonLogo from "../../../assets/images/polygon-matic-logo.png";
 import bicycleBlockChainIcon from "../../../assets/images/bicycle-block-chain.png";
-import certificateIcon from "../../../assets/images/certificate.png";
-import thiefIcon from "../../../assets/images/thief.png";
+import certificateIcon from "../../../assets/images/NFTBoc.jpeg";
+import thiefIcon from "../../../assets/images/thief.jpg";
 import TextBlock from "./TextBlock";
 
 function Home() {
@@ -12,6 +12,7 @@ function Home() {
       <div
         style={{
           position: "relative",
+          minWidth: "360px",
           zIndex: 100,
           height: 500,
           overflow: "hidden",
@@ -20,15 +21,28 @@ function Home() {
           alignItems: "center",
         }}
       >
+        {/* <img
+          src={velo}
+          width={400}
+          style={{
+            position: "absolute",
+            top: -150,
+            left: 0,
+            // filter: "blur(4px)",
+            width: "100%",
+            objectFit: "cover",
+            zIndex: -1,
+          }}
+        /> */}
         <video
           autoPlay
           muted
           loop
           style={{
             position: "absolute",
-            top: -150,
+            top: "5%",
             left: 0,
-            filter: "blur(4px)",
+            filter: "blur(0.5px)",
             width: "100%",
             objectFit: "cover",
             zIndex: -1,
@@ -39,12 +53,13 @@ function Home() {
         <Text
           h1
           css={{
-            borderRadius:"4px",
-            background: "white",
+            color: "WhiteSmoke",
+            borderRadius: "4px",
+            // background: "white",
             padding: "5px 15px",
           }}
         >
-          Identifiez votre vélo sur la blockhain
+          Donne une vie digitale a votre vélo avec le NFT
           <img
             width={50}
             src={polygonLogo}
@@ -56,29 +71,46 @@ function Home() {
       </div>
       <div
         style={{
-          padding: "50px 130px",
+          padding: "5% 10%",
           display: "flex",
           flexDirection: "column",
           gap: 70,
         }}
       >
         <TextBlock icon={bicycleBlockChainIcon}>
-          Blockchain technology is an advanced database mechanism that allows
-          transparent information sharing within a business network. A
-          blockchain database stores data in blocks that are linked together in
-          a chain.
+          On peu définir la blockchain comme une base de données qui contient
+          l’historique de tous les échanges effectués entre ses utilisateurs
+          depuis sa création. Cette base de données est sécurisée et partagée
+          par ses différents utilisateurs, sans intermédiaire, ce qui permet à
+          chacun de vérifier la validité de la chaîne. Notre application
+          s'appuie sur la Blockchain publique POLYGON, vous offrant la
+          confidentialité, la transparence et la sécurité d'une blockchain
+          publique éprouvé.
         </TextBlock>
         <TextBlock icon={certificateIcon}>
-          Les certificats d'authentification serveur sont des certificats qui
-          servent à identifier de façon sûre le serveur (ou les applications)
-          auprès d'autres applications tierces. En effet comme tous les
-          certificats, le certificat d'authentification serveur est considéré
-          comme la carte d'identité du serveur.
+          Les NFT sont l'avenir de la propriété individulle, en effet, grâce à
+          cette technologie basée sur les "contrats intelligents", hebergés sur
+          la blockchain, obtenez un certificat infalsifiable de votre achat,
+          certificat digital de propriété qui atteste du caractère unique de
+          votre bien tout en preservant votre vie privé. Le NFT inteligent de
+          BikeOnChain est l'altérégo digital de votre vélo, donne a son
+          proprietaire toute une palette de functions interactives permetant
+          d'intereagir avec votre vélo directement sur le blokchain. Transferez
+          votre nft lors de la revente,comme garantie de propriété, Ajouter un
+          reparateur de confiance et permetez lui d'inscrire dans le carnet
+          d'entretien associé au Nft, les travaux réalisé, Déclarer son vélo
+          volé, ou en vente, faite le directement avec votre application
+          BikeOnChain.
         </TextBlock>
         <TextBlock icon={thiefIcon}>
-          Le projet de lutte contre le recel par marquage au laser en est encore
-          au stade de concept. La technique dite "au laser" ne constitue pour
-          l'instant qu'une technique parmi d'autres possibles.
+          Bike on chain s'associé aux plus grandes plateformes de revente de
+          vélo d'occasion afin de lutter contre le recel Affichez le NFT associé
+          a votre vélo en tant que garantie de propriété et transferez le nft a
+          l'acheteur au moment de la revente. L'état de n'importe quel vélo muni
+          d"un nft BoC, est verifiable dans notre moteur de recherche en
+          saisisant simplement le numéro de série unique du vélo, en cas de vol
+          par exemple,un état volé sera affiché sur le NFT et ce jsuqu' a ce que
+          son propriétaire le retrouve.
         </TextBlock>
       </div>
     </>

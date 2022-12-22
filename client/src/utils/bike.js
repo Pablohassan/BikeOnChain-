@@ -14,6 +14,9 @@ export function statusToString(status) {
   if (status == 4) {
     return "Volé";
   }
+  if (status == 5) {
+    return "Effectuer Maintenance";
+  }
 }
 
 export function statusToColor(status) {
@@ -31,5 +34,8 @@ export function statusToColor(status) {
   }
   if (status == 4) {
     return "error";
+  }
+  if (status == 5) {
+    return "warning";
   }
 }

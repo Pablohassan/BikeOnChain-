@@ -58,7 +58,7 @@ function Certificates() {
           tokenIds.push(Number(id));
         }
       } catch {
-        
+       
       }
 
 

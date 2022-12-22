@@ -25,8 +25,10 @@ function CreateCertificates({ setLoading }) {
       await collection.methods
         .batchMint(
           event.target.amount.value,
-          event.target.name.value,
+          event.target.brand.value,
           event.target.model.value,
+          event.target.typeOf.value,
+          event.target.color.value,
           event.target.description.value,
           event.target.image.value,
           event.target.buildYear.value
@@ -63,8 +65,10 @@ function CreateCertificates({ setLoading }) {
           type="number"
           required
         />
-        <Input name="name" clearable bordered label="Nom" required />
+        <Input name="brand" clearable bordered label="Marque" required />
         <Input name="model" clearable bordered label="Modèle" required />
+        <Input name="typeOf" clearable bordered label="Type" required />
+        <Input name="color" clearable bordered label="Couleur" required />
         <Input
           name="description"
           clearable

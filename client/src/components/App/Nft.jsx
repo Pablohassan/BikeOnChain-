@@ -9,6 +9,7 @@ import {
   Row,
   Grid,
   Badge,
+  Table,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -17,6 +18,7 @@ import { useEth } from "../contexts/EthContext";
 import PropTypes from "prop-types";
 import { statusToColor, statusToString } from "../../utils/bike";
 import { toast } from "react-hot-toast";
+
 
 function Nft({ setLoading }) {
   const { collectionAddr, tokenId } = useParams();
@@ -27,6 +29,24 @@ function Nft({ setLoading }) {
 
   const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
+  const [showAddMainteurModal, setShowAddMainteurModal] = useState(false);
+  const [showMaintenanceModal, setShowMaintenanceModal] = useState(false);
+  const [maintenance, setMaintenance] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    async function fetchMaint() {
+      const collection = await getCollection(collectionAddr);
+      setMaintenance(
+        await collection.methods
+          .getRealisedMaintenance(tokenId)
+          .call({ from: account })
+      );
+    }
+
+    fetchMaint().finally(() => setLoading(false));
+  }, [account, collectionAddr, getCollection, tokenId, setLoading]);
 
   useEffect(() => {
     setLoading(true);
@@ -48,7 +68,7 @@ function Nft({ setLoading }) {
   function handleChangeStatus(status) {
     return async () => {
       setLoading(true);
-
+      setShowChangeStatusModal(false);
       try {
         const collection = await getCollection(collectionAddr);
 
@@ -58,10 +78,14 @@ function Nft({ setLoading }) {
             .send({ from: account });
         } else if (status === 3) {
           await collection.methods
-            .setOutOfService(tokenId)
+            .setOnSale(tokenId)
             .send({ from: account });
         } else if (status === 4) {
-          await collection.methods.setStealed(tokenId).send({ from: account });
+          await collection.methods.setStolen(tokenId).send({ from: account });
+        } else if (status === 5) {
+          await collection.methods
+            .setMaintenanceStatus(tokenId, AddMainteneur())
+            .send({ from: account });
         }
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -69,14 +93,14 @@ function Nft({ setLoading }) {
         toast.error("Statut inchangé");
       }
 
-      setShowChangeStatusModal(false);
       setLoading(false);
     };
   }
 
   async function handleTransfer(event) {
+    if (bike.status == 4) return "You can't sell stolen bike";
     event.preventDefault();
-
+    setShowTransferModal(false);
     setLoading(true);
 
     try {
@@ -105,7 +129,54 @@ function Nft({ setLoading }) {
       toast.error("Transférer échoué");
     }
 
-    setShowTransferModal(false);
+    setLoading(false);
+  }
+
+  async function AddMainteneur(event) {
+    event.preventDefault();
+    setShowAddMainteurModal(false);
+    setLoading(true);
+
+    try {
+      const collection = await getCollection(collectionAddr);
+
+      await collection.methods
+        .setMaintenanceStatus(tokenId, event.target.to.value)
+        .send({ from: account });
+      toast.success("Mainteneur ajouté avec succès");
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      toast.error("Transférer échoué");
+    }
+
+    setLoading(false);
+  }
+
+  async function SetMaintenance(event) {
+    event.preventDefault();
+    setShowMaintenanceModal(false);
+    setLoading(true);
+
+    try {
+      const collection = await getCollection(collectionAddr);
+
+      await collection.methods
+        .setMaintenance(
+          tokenId,
+          event.target.es.value,
+          event.target.to.value,
+          new Date().getTime(),
+          account
+        )
+        .send({ from: account });
+      toast.success("Maintenance Realisé");
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      toast.error("Transférer échoué");
+    }
+
     setLoading(false);
   }
 
@@ -118,15 +189,18 @@ function Nft({ setLoading }) {
   }
 
   const Card1 = () => (
-    <Card css={{ mt: "20px", maxHeight: "550px", maxWidth: "500px" }}>
+    <Card
+      isHoverable
+      css={{ display: "flex", mt: "20px", maxHeight: "550px", maxWidth: "500px", minWidth:"380px" }}
+    >
       <Card.Header css={{ p: "15px", position: "absolute", zIndex: 1, top: 5 }}>
         <Col>
           <Text size={12} weight="bold" transform="uppercase" color="black">
-            {bike.description}
+            {bike.model}
           </Text>
 
           <Text h4 color="black">
-            {bike.name} #{tokenId}
+            {bike.brand} #{tokenId}
           </Text>
         </Col>
       </Card.Header>
@@ -153,8 +227,7 @@ function Nft({ setLoading }) {
           <Col>
             <Row justify="flex-end">
               <Badge
-                
-                
+                css={{ minWidth: "100px" }}
                 color={statusToColor(Number(bike.status))}
               >
                 <Text
@@ -173,93 +246,55 @@ function Nft({ setLoading }) {
     </Card>
   );
 
+  const columns = [
+    {
+      key: "name",
+      label: "Enseigne",
+    },
+    {
+      key: "role",
+      label: "Description",
+    },
+    {
+      key: "status",
+      label: "Date",
+    },
+  ];
+  const rows = [
+    
+  ];
+
   return (
     <div>
-      <Grid.Container size={10}>
-        <Grid size={6}>
+      <Grid.Container
+        css={{
+          maxWidth:"1000px",
+          minWidth:"768px",
+          display: "grid",
+          gridTemplateRows: " 1fr 1fr 1fr 1fr",
+          gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+          gap: "10px",
+          height: "100%",
+        }}
+      >
+        <Grid
+          css={{
+            gridRowStart: "1",
+            gridColumnStart: "1",
+            gridRowEnd: "5",
+            gridColumnEnd: "5",
+          }}
+          size={3}
+        >
           <Card1 />
-        </Grid>
-        <Grid css={{ margin: "auto" }} size={6}>
-          <Button
-           
-            size="lg"
-            css={{ mt: "50px", minWidth: "160px" }}
-            shadow
-            color="gradient"
-            auto
-            onClick={() => setShowChangeStatusModal(true)}
-          >
-            <Text weight="bold" h3 size={14} color="White" css={{ pt: "10px" }}>
-              Change Status
-            </Text>
-          </Button>
-          <Button
-           
-            size="lg"
-            css={{ mt: "10px", minWidth: "160px" }}
-            shadow
-            color="gradient"
-            auto
-            onClick={() => setShowTransferModal(true)}
-          >
-            <Text weight="bold" h3 size={14} color="White" css={{ pt: "10px" }}>
-              Transférer NFT
-            </Text>
-          </Button>
-          <Button
-           
-            size="lg"
-            css={{ mt: "10px", minWidth: "160px" }}
-            shadow
-            color="gradient"
-            
-          >
-            <Link
-              href={`https://testnets.opensea.io/assets/mumbai/${collectionAddr}/${tokenId}`}
-            >
-              <Text
-                weight="bold"
-                h3
-                size={14}
-                color="White"
-                css={{ pt: "10px" }}
-              >
-                Look at OpenSea
-              </Text>
-            </Link>
-          </Button>
-          <Button
-           
-            color="gradient"
-            size="lg"
-            css={{ mt: "10px", minWidth: "160px" }}
-            shadow
-            
-          >
-            <Link
-              href={`https://mumbai.polygonscan.com/address/${collectionAddr}`}
-            >
-              <Text
-                weight="bold"
-                h3
-                size={14}
-                color="White"
-                css={{ pt: "10px" }}
-              >
-                Verify Contract
-              </Text>
-            </Link>
-          </Button>
-        </Grid>
-      </Grid.Container>
-
-      <Grid.Container>
-        <Grid size={6}>
+   <Grid css={{display:"grid", gridTemplateColumns: "50% 50%",maxWidth:"500px"}}>
           <Card
+         
             variant="bordered"
             css={{
+              display: "flex",
               m: "1px",
-              width: "250px",
+              maxWidth: "250px",
               minWidth: "50px",
               maxHeight: "100px",
             }}
@@ -279,33 +314,32 @@ function Nft({ setLoading }) {
               </Text>
             </Card.Body>
           </Card>
-        </Grid>
-        <Card
-          variant="bordered"
-          css={{ m: "1px", width: "250px", minWidth: "50px" }}
-        >
-          <Card.Body>
-            <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
-              Date de première vente
-            </Text>
-            <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
-              {new Date(Number(bike.firstPurchaseDate)).toLocaleDateString(
-                "fr-FR",
-                {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                }
-              )}
-            </Text>
-          </Card.Body>
-        </Card>
-      </Grid.Container>
-      <Grid.Container>
-        <Grid size={6}>
+
           <Card
             variant="bordered"
-            css={{ m: "1px", width: "250px", minWidth: "50px" }}
+            css={{ m: "1px",  maxWidth: "250px",
+            minWidth: "50px",
+            maxHeight: "100px", }}
+          >
+            <Card.Body>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+                Date de première vente
+              </Text>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
+                {new Date(Number(bike.firstPurchaseDate)).toLocaleDateString(
+                  "fr-FR",
+                  {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  }
+                )}
+              </Text>
+            </Card.Body>
+          </Card>
+          <Card
+            variant="bordered"
+            css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
           >
             <Card.Body>
               <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
@@ -316,42 +350,256 @@ function Nft({ setLoading }) {
               </Text>
             </Card.Body>
           </Card>
-        </Grid>
-        <Card
-          variant="bordered"
-          css={{ m: "1px", width: "250px", minWidth: "50px" }}
-        >
-          <Card.Body>
-            <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
-              Année de fabrication
-            </Text>
-            <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
-              {bike.buildYear}
-            </Text>
-          </Card.Body>
-        </Card>
-        <Grid.Container>
+
           <Card
-            isHoverable
             variant="bordered"
-            css={{ m: "1px", width: "500px", minWidth: "50px" }}
+            css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
+          >
+            <Card.Body>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+                Année de fabrication
+              </Text>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
+                {bike.buildYear}
+              </Text>
+            </Card.Body>
+          </Card>
+
+          <Card
+            variant="bordered"
+            css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
+          >
+            <Card.Body>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+                Coleur
+              </Text>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+                {bike.color}
+              </Text>
+            </Card.Body>
+          </Card>
+
+          <Card
+            variant="bordered"
+            css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
+          >
+            <Card.Body>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+                Type
+              </Text>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
+                {bike.typeOf}
+              </Text>
+            </Card.Body>
+          </Card>
+
+          {/* <Card
+            variant="bordered"
+            css={{ m: "1px",maxWidth:"500px",minWidth: "400px"}}
           >
             <Card.Body>
               <Text weight="bold" align="center" size={14}>
                 A propos de {bike.description}
               </Text>
             </Card.Body>
-          </Card>
-        </Grid.Container>
-      </Grid.Container>
+          </Card> */}
+</Grid>
 
+        </Grid>
+
+        <Grid
+          css={{
+            gridRowStart: "1",
+            gridColumnStart: "5",
+            gridRowEnd: "5",
+            gridColumnEnd: "8",
+          }}
+        >
+          <Grid.Container css={{ display: "flex", flexFlow:"column"}}>
+
+           
+            <Text
+              css={{ mt: "50px", mw: "250px" }}
+              size={12}
+              weight="bold"
+              transform="uppercase"
+              color="black"
+            >
+              {bike.description}
+            </Text>
+
+            <Text css={{ mt: "20px" }} h4>
+              {" "}
+              Intereagisez avec votre NFT{" "}
+            </Text>
+
+          <Grid css={{maxWidth:"250px"}}>
+            <Button
+              size="lg"
+              css={{ mt: "30px", minWidth: "160px" }}
+              shadow
+              color="gradient"
+              auto
+              onClick={() => setShowChangeStatusModal(true)}
+            >
+              <Text
+                weight="bold"
+                h3
+                size={14}
+                color="White"
+                css={{ pt: "10px" }}
+              >
+                Changer Status
+              </Text>
+            </Button>
+
+            <Button
+              size="lg"
+              css={{ mt: "10px", minWidth: "160px" }}
+              shadow
+              color="gradient"
+              auto
+              onClick={() => setShowTransferModal(true)}
+            >
+              <Text
+                weight="bold"
+                h3
+                size={14}
+                color="White"
+                css={{ pt: "10px" }}
+              >
+                Transférer NFT
+              </Text>
+            </Button>
+            <Button
+              size="lg"
+              css={{ mt: "10px", minWidth: "160px" }}
+              shadow
+              color="gradient"
+              auto
+            >
+              <Link
+                href={`https://testnets.opensea.io/assets/mumbai/${collectionAddr}/${tokenId}`}
+              >
+                <Text
+                  weight="bold"
+                  h3
+                  size={14}
+                  color="White"
+                  css={{ pt: "10px" }}
+                >
+                  Look at OpenSea
+                </Text>
+              </Link>
+            </Button>
+            <Button
+              color="gradient"
+              size="lg"
+              css={{ mt: "10px", minWidth: "160px" }}
+              shadow
+              auto
+            >
+              <Link
+                href={`https://mumbai.polygonscan.com/address/${collectionAddr}`}
+              >
+                <Text
+                  weight="bold"
+                  h3
+                  size={14}
+                  color="White"
+                  css={{ pt: "10px" }}
+                >
+                  Verify Contract
+                </Text>
+              </Link>
+            </Button>
+
+            <Button
+              size="lg"
+              css={{ mt: "50px", minWidth: "160px" }}
+              shadow
+              color="warning"
+              auto
+              onClick={() => setShowAddMainteurModal(true)}
+            >
+              <Text
+                weight="bold"
+                h3
+                size={14}
+                color="White"
+                css={{ pt: "10px" }}
+              >
+                Ajout Mainteneur
+              </Text>
+            </Button>
+            <Button
+              size="lg"
+              css={{ mt: "10px", minWidth: "160px" }}
+              shadow
+              color="warning"
+              auto
+              onClick={() => setShowMaintenanceModal(true)}
+            >
+              <Text
+                weight="bold"
+                h3
+                size={14}
+                color="White"
+                css={{ pt: "10px" }}
+              >
+                Maintenance
+              </Text>
+            </Button>
+            </Grid>
+            <Text h4 css={{ mt: "10px" }} h6>
+              {" "}
+              Maintenance réalisé
+            </Text>
+
+            <Card>
+              
+              <Table
+                aria-label="table with dynamic content"
+                css={{
+                 fontSize:'14px',
+                  height: "auto",
+                  minWidth: "100%",
+                }}
+              >
+                <Table.Header  columns={columns}>
+                  {(column) => (
+                    <Table.Column css={{bg:"$green300"}}  key={column.key}>{column.label}</Table.Column>
+                  )}
+                </Table.Header>
+                <Table.Body  items={rows}>
+                  {maintenance.map((propal, index) => (
+                    <Table.Row key={index}>
+                      <Table.Cell>{propal.store}</Table.Cell>
+                      <Table.Cell>{propal.commentar}</Table.Cell>
+                      <Table.Cell>
+                        {new Date(
+                          Number(propal.maintenanceDate)
+                        ).toLocaleDateString("fr-FR", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>{" "}
+            </Card>
+          </Grid.Container>
+        </Grid>
+      </Grid.Container>
       {showChangeStatusModal && (
         <Modal closeButton open onClose={() => setShowChangeStatusModal(false)}>
           <Modal.Header>
             <Text>Change le status</Text>
           </Modal.Header>
           <Modal.Body>
-            {[2, 3, 4].map((status) => (
+            {[2, 3, 4, 5].map((status) => (
               <Button
                 key={status}
                 color={statusToColor(status)}
@@ -391,6 +639,55 @@ function Nft({ setLoading }) {
                 />
               )}
               <Button type="submit">Transférer</Button>
+            </form>
+          </Modal.Body>
+          <Modal.Footer />
+        </Modal>
+      )}{" "}
+      {showAddMainteurModal && (
+        <Modal closeButton open onClose={() => setShowAddMainteurModal(false)}>
+          <Modal.Header>
+            <Text>Add Mainteneur address</Text>
+          </Modal.Header>
+          <Modal.Body>
+            <form
+              style={{ display: "flex", flexDirection: "column", gap: 20 }}
+              onSubmit={AddMainteneur}
+            >
+              <Input
+                name="to"
+                clearable
+                bordered
+                fullWidth
+                label="Adresse du Mainteneur"
+              />
+
+              <Button type="submit">Add Mainteneur</Button>
+            </form>
+          </Modal.Body>
+          <Modal.Footer />
+        </Modal>
+      )}
+      {showMaintenanceModal && (
+        <Modal closeButton open onClose={() => setShowMaintenanceModal(false)}>
+          <Modal.Header>
+            <Text>Réaliser Maintenance</Text>
+          </Modal.Header>
+          <Modal.Body>
+            <form
+              style={{ display: "flex", flexDirection: "column", gap: 20 }}
+              onSubmit={SetMaintenance}
+            >
+              <Input name="es" clearable bordered fullWidth label="Enseigne" />
+              <Input
+                name="to"
+                clearable
+                bordered
+                fullWidth
+                label="Déscritption"
+              />
+
+              <Button type="submit">Valider la maintenance</Button>
             </form>
           </Modal.Body>
           <Modal.Footer />
