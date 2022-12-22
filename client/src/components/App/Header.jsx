@@ -1,9 +1,14 @@
 import { Navbar, Text, Image, Dropdown, Button } from "@nextui-org/react";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaSearch, FaPlusSquare } from "react-icons/fa";
 import certificateIcon from "../../assets/images/certificate.png";
 import useEth from "../contexts/EthContext/useEth";
 import { toast } from "react-hot-toast";
+
+
+
+
 
 const PUBLIC_LINKS_DATA = [
   [
@@ -60,12 +65,14 @@ function Header() {
         borderBottom:
           "var(--nextui--navbarBorderWeight) solid var(--nextui--navbarBorderColor)",
       }}
-    >
+    > 
+     <Navbar.Toggle showIn="xs" />
       <Navbar.Brand as={Link} to="/">
         <Image src="/logo.png" css={{ width: 50, marginRight: 10 }} />
         <Text b>Bike On Chain</Text>
       </Navbar.Brand>
       <Navbar.Content
+       hideIn="xs"
         variant="highlight"
         activeColor="neutral"
         enableCursorHighlight={isPublicLinkActive}
@@ -76,7 +83,8 @@ function Header() {
           </Navbar.Link>
         ))}
       </Navbar.Content>
-      <Navbar.Content>
+      <Navbar.Content 
+      hideIn="xs">
         {isConnected ? (
           <>
             <Dropdown isBordered>
@@ -121,6 +129,31 @@ function Header() {
           </Text>
         )}
       </Navbar.Content>
+
+      {/* {PUBLIC_LINKS_DATA.map(([to, label]) => (
+          <Navbar.Link key={to} as={Link} to={to} isActive={to === pathname}>
+            {label}
+          </Navbar.Link>
+        ))} */}
+
+
+      <Navbar.Collapse disableAnimation>
+      {PUBLIC_LINKS_DATA.map(([to, label]) => (
+            <Navbar.CollapseItem
+            key={to} as={Link} to={to} isActive={to === pathname}
+            >
+             <Link
+                color="inherit"
+                css={{
+                  minWidth: "100%",
+                }}
+                href="#"
+              >
+                {label}
+                </Link>
+            </Navbar.CollapseItem>
+          ))}
+        </Navbar.Collapse>
     </Navbar>
   );
 }

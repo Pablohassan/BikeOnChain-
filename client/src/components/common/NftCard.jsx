@@ -6,7 +6,7 @@ import { statusToColor, statusToString } from "../../utils/bike";
 function NftCard({
   id,
   collectionAddr,
-  name,
+  brand,
   image,
   buildYear,
   status,
@@ -33,7 +33,7 @@ function NftCard({
           flexDirection: "row",
         }}
       >
-        <Card.Image src={image} alt={name} />
+        <Card.Image src={image} alt={brand} />
         <div style={{ position: "absolute", top: "10px", right: "10px" }}>
           {showStatus && (
             <Badge color={statusToColor(Number(status))}>
@@ -48,7 +48,7 @@ function NftCard({
           flexDirection: "column",
         }}
       >
-        <Text b>{name}</Text>
+        <Text b>{brand}</Text>
         <Text
           css={{
             color: "$accents7",
@@ -66,7 +66,7 @@ function NftCard({
 NftCard.propTypes = {
   id: PropTypes.string.isRequired,
   collectionAddr: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  brand: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   buildYear: PropTypes.string.isRequired,
