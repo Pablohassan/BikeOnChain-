@@ -1,28 +1,22 @@
-import bikesMotif from "../../../assets/images/bikes-motif.jpeg";
+import bikesMotif from "../../../assets/images/Monkey.png";
 import PropTypes from "prop-types";
 
 function Hero({ children, style }) {
   return (
     <div
       style={{
+        color:'white',
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        background: `url(${bikesMotif})`,
+        backgroundColor:"transparent",
         padding: "50px 0",
         marginBottom: 15,
         ...style,
       }}
     >
       <div
-        style={{
-          background: "whitesmoke",
-          padding: "20px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          borderRadius: "10px",
-        }}
+    
       >
         {children}
       </div>

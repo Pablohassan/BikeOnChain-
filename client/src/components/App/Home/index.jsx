@@ -40,10 +40,10 @@ function Home() {
           loop
           style={{
             position: "absolute",
-            top: "5%",
-            left: 0,
+            top: "-5%",
+            left: "-10%",
             filter: "blur(0.5px)",
-            width: "100%",
+            width: "120%",
             objectFit: "cover",
             zIndex: -1,
           }}
@@ -51,15 +51,20 @@ function Home() {
           <source src={video} type="video/mp4" />
         </video>
         <Text
+        shadow
           h1
           css={{
+            fontSize:"2em",
+            maxW:"80%",
+          shadow:"1px 2px 1px, $gray900",
             color: "WhiteSmoke",
             borderRadius: "4px",
             // background: "white",
             padding: "5px 15px",
           }}
-        >
-          Donne une vie digitale a votre vélo avec le NFT
+        >   
+        Sécurisez et donnez une vie digitale à votre vélo <br />
+         grace au NFT inteligent de BikeOnChain
           <img
             width={50}
             src={polygonLogo}
@@ -78,7 +83,7 @@ function Home() {
         }}
       >
         <TextBlock icon={bicycleBlockChainIcon}>
-          On peu définir la blockchain comme une base de données qui contient
+          On peut définir la blockchain comme une base de données qui contient
           l’historique de tous les échanges effectués entre ses utilisateurs
           depuis sa création. Cette base de données est sécurisée et partagée
           par ses différents utilisateurs, sans intermédiaire, ce qui permet à
@@ -104,7 +109,7 @@ function Home() {
         </TextBlock>
         <TextBlock icon={thiefIcon}>
           Bike on chain s'associé aux plus grandes plateformes de revente de
-          vélo d'occasion afin de lutter contre le recel Affichez le NFT associé
+          vélo d'occasion afin de lutter contre le recel. Affichez le NFT associé
           a votre vélo en tant que garantie de propriété et transferez le nft a
           l'acheteur au moment de la revente. L'état de n'importe quel vélo muni
           d"un nft BoC, est verifiable dans notre moteur de recherche en

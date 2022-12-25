@@ -15,7 +15,7 @@ export function statusToString(status) {
     return "Volé";
   }
   if (status == 5) {
-    return "Effectuer Maintenance";
+    return "En Maintenance";
   }
 }
 
