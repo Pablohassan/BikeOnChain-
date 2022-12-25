@@ -271,8 +271,12 @@ contract BikeCollection is ERC721Enumerable, Ownable {
         external
         ifTokenExist(tokenId)
         ifTokenApprovedOrOwner(tokenId)
-        ifValidStatus(tokenId)
     {
+        require(
+            _bikeByTokenId[tokenId].status != Status.Idle,
+            "Not allowed, bike on Idle"
+        );
+
         _bikeByTokenId[tokenId].status = Status.InService;
     }
 
@@ -309,20 +313,18 @@ contract BikeCollection is ERC721Enumerable, Ownable {
         address _mainteneur
     ) public ifTokenExist(tokenId) ifValidStatus(tokenId) {
         require(
-            _bikeByTokenId[tokenId].status == Status.Maintenance,
+            _bikeByTokenId[tokenId].status == Status.Maintenance &&
+                _mainteneur == msg.sender,
             "Change velo status in Maintenance"
         );
 
-        _mainteneur = msg.sender;
         maintenance.push(
             MaintenanceBook(_store, _commentar, _maintenanceDate, _mainteneur)
         );
 
-       
-
         emit MaintenanceDone(tokenId, _store, _commentar, _maintenanceDate);
 
-         _bikeByTokenId[tokenId].status == Status.InService;
+        _bikeByTokenId[tokenId].status = Status.InService;
     }
 
     function _statusToString(Status status)

@@ -4,6 +4,7 @@ import Hero from "./shared/Hero";
 import PropTypes from "prop-types";
 import { useEth } from "../contexts/EthContext";
 import { toast } from "react-hot-toast";
+import bikesMotif from "../../assets/images/Monkey.png";
 
 function CreateCertificates({ setLoading }) {
   const {
@@ -51,41 +52,55 @@ function CreateCertificates({ setLoading }) {
 
   return (
     <>
+    <div style={{
+
+background: `url(${bikesMotif})`,height:"100%", backgroundSize:'cover'
+
+
+    }}>
       <Hero>
-        <Text h2 css={{ m: 0 }}>
-          Créer des certificats
+        <Text h2 css={{color:'White', m: 0 }}>
+          Créez vos certificats NFT
         </Text>
       </Hero>
+      <div style={{ display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        margin:"auto",
+        maxWidth:"170px", minWidth:'150px',
+        backgroundColor:"transparent",borderRadius: "10px"}} >
       <Form onSubmit={handleSubmit} submitLabel="Créer">
-        <Input
+        <Input css={{background:"white",p:"1px"}}
           name="amount"
           clearable
           bordered
-          label="Nombre"
+          placeholder="Nombre"
           type="number"
           required
         />
-        <Input name="brand" clearable bordered label="Marque" required />
-        <Input name="model" clearable bordered label="Modèle" required />
-        <Input name="typeOf" clearable bordered label="Type" required />
-        <Input name="color" clearable bordered label="Couleur" required />
-        <Input
+        <Input css={{background:"white",p:"1px"}}name="brand" clearable bordered placeholder="Marque" required />
+        <Input css={{background:"white",p:"1px"}} name="model" clearable bordered placeholder="Modèle" required />
+        <Input css={{background:"white",p:"1px"}} name="typeOf" clearable bordered placeholder="Type" required />
+        <Input css={{background:"white",p:"1px"}} name="color" clearable bordered placeholder="Couleur" required />
+        <Input css={{background:"white",p:"1px"}}
           name="description"
           clearable
           bordered
-          label="Description"
+          placeholder="Description"
           required
         />
-        <Input name="image" clearable bordered label="Image" required />
-        <Input
+        <Input css={{background:"white",p:"1px"}} name="image" clearable bordered placeholder="Image" required />
+        <Input css={{background:"white",p:"1px"}}
           name="buildYear"
           clearable
           bordered
-          label="Année de fabrication"
+          placeholder="Année de fabrication"
           type="number"
           required
         />
       </Form>
+      </div>
+      </div>
     </>
   );
 }

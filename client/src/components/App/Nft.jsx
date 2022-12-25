@@ -34,7 +34,7 @@ function Nft({ setLoading }) {
   const [maintenance, setMaintenance] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
+    
 
     async function fetchMaint() {
       const collection = await getCollection(collectionAddr);
@@ -45,8 +45,10 @@ function Nft({ setLoading }) {
       );
     }
 
-    fetchMaint().finally(() => setLoading(false));
-  }, [account, collectionAddr, getCollection, tokenId, setLoading]);
+    fetchMaint()
+  }, [account, collectionAddr, getCollection, tokenId]);
+
+  
 
   useEffect(() => {
     setLoading(true);
@@ -59,7 +61,7 @@ function Nft({ setLoading }) {
     }
 
     fetch().finally(() => setLoading(false));
-  }, [account, collectionAddr, getCollection, tokenId]);
+  },[account, collectionAddr, getCollection, setLoading, tokenId] );
 
   ////////////////////////////////////////////////////////////////
   // Event Handlers
@@ -78,7 +80,7 @@ function Nft({ setLoading }) {
             .send({ from: account });
         } else if (status === 3) {
           await collection.methods
-            .setOnSale(tokenId)
+            .setOnSale(tokenId,new Date().getTime() )
             .send({ from: account });
         } else if (status === 4) {
           await collection.methods.setStolen(tokenId).send({ from: account });
@@ -249,11 +251,11 @@ function Nft({ setLoading }) {
   const columns = [
     {
       key: "name",
-      label: "Enseigne",
+      label: "Description",
     },
     {
       key: "role",
-      label: "Description",
+      label: "Cout",
     },
     {
       key: "status",
@@ -671,20 +673,20 @@ function Nft({ setLoading }) {
       {showMaintenanceModal && (
         <Modal closeButton open onClose={() => setShowMaintenanceModal(false)}>
           <Modal.Header>
-            <Text>Réaliser Maintenance</Text>
+            <Text> Maintenance</Text>
           </Modal.Header>
           <Modal.Body>
             <form
               style={{ display: "flex", flexDirection: "column", gap: 20 }}
               onSubmit={SetMaintenance}
             >
-              <Input name="es" clearable bordered fullWidth label="Enseigne" />
+              <Input name="es" clearable bordered fullWidth label="Description" />
               <Input
                 name="to"
                 clearable
                 bordered
                 fullWidth
-                label="Déscritption"
+                label="Cout"
               />
 
               <Button type="submit">Valider la maintenance</Button>

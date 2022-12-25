@@ -137,9 +137,9 @@ function Header() {
         ))} */}
 
 
-      <Navbar.Collapse disableAnimation>
+      {/* <Navbar.Collapse disableAnimation>
       {PUBLIC_LINKS_DATA.map(([to, label]) => (
-            <Navbar.CollapseItem
+            <Navbar.CollapseItem.Link
             key={to} as={Link} to={to} isActive={to === pathname}
             >
              <Link
@@ -151,9 +151,9 @@ function Header() {
               >
                 {label}
                 </Link>
-            </Navbar.CollapseItem>
+            </Navbar.CollapseItem.Link>
           ))}
-        </Navbar.Collapse>
+        </Navbar.Collapse> */}
     </Navbar>
   );
 }
