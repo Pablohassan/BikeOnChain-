@@ -47,20 +47,14 @@ function Certificates() {
 
       const tokenIds = [];
 
-      try{  
-
-      
-      
+      try {
         for (let i = 0; i < Number(total); i++) {
           const id = await collection.methods
             .tokenOfOwnerByIndex(account, i)
             .call({ from: account });
           tokenIds.push(Number(id));
         }
-      } catch {
-       
-      }
-
+      } catch {}
 
       const bikes = await Promise.all(
         tokenIds.map((id) =>

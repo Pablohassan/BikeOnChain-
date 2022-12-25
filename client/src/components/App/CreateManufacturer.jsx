@@ -1,6 +1,6 @@
 import { Input, Text } from "@nextui-org/react";
 import useEth from "../contexts/EthContext/useEth";
-import bikesMotif from "../../assets/images/Robot.png";
+import bikesMotif from "../../assets/images/robot.png";
 import Hero from "./shared/Hero";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
@@ -8,13 +8,13 @@ import Form from "../common/Form";
 
 function CreateManufacturer({ setLoading }) {
   const {
-    state: { contract, account , web3},
+    state: { contract, account, web3 },
   } = useEth();
 
   ////////////////////////////////////////////////////////////////
   // Event Handlers
   ////////////////////////////////////////////////////////////////
-  
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -48,43 +48,60 @@ function CreateManufacturer({ setLoading }) {
 
   return (
     <>
-    <div style={{
-
-background: `url(${bikesMotif})`,height:"100%", width:"100%", backgroundSize:'cover'
-
-
-    }}>
-      <Hero>
-        <Text h2 css={{color:'White', m: 0 }}>
-          Ajouter un fabricant
-        </Text>
-      </Hero>
-      <div style={{ display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        margin:"auto",
-        backgroundColor:"transparent",borderRadius: "10px", maxWidth:"170px", minWidth:'150px'}} >
-      <Form  onSubmit={handleSubmit} submitLabel="Créer">
-        <Input css={{background:"white",p:"1px"}} name="name" placeholder="Nom du fabriquant" clearable bordered  required />
-        <Input css={{background:"white",p:"1px"}}
-          name="symbol"
-          clearable
-          bordered
-          placeholder="Symbol exemple: BTC"
-          required
-        />
-        <Input css={{background:"white",p:"1px"}}
-          name="address"
-          clearable
-          bordered
-          placeholder="Adresse du fabriquant"
-          required
-        />
-      </Form>
-      </div>
+      <div
+        style={{
+          background: `url(${bikesMotif})`,
+          height: "100%",
+          width: "100%",
+          backgroundSize: "cover",
+        }}
+      >
+        <Hero>
+          <Text h2 css={{ color: "White", m: 0 }}>
+            Ajouter un fabricant
+          </Text>
+        </Hero>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            margin: "auto",
+            backgroundColor: "transparent",
+            borderRadius: "10px",
+            maxWidth: "170px",
+            minWidth: "150px",
+          }}
+        >
+          <Form onSubmit={handleSubmit} submitLabel="Créer">
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="name"
+              placeholder="Nom du fabriquant"
+              clearable
+              bordered
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="symbol"
+              clearable
+              bordered
+              placeholder="Symbol exemple: BTC"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="address"
+              clearable
+              bordered
+              placeholder="Adresse du fabriquant"
+              required
+            />
+          </Form>
+        </div>
       </div>
     </>
-
   );
 }
 
