@@ -1,6 +1,6 @@
 import { Input, Text } from "@nextui-org/react";
 import useEth from "../contexts/EthContext/useEth";
-import bikesMotif from "../../assets/images/Robot.png";
+import bikesMotif from "../../assets/images/robot.png";
 import Hero from "./shared/Hero";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
