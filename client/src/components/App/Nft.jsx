@@ -574,13 +574,13 @@ function Nft({ setLoading }) {
                   )}
                 </Table.Header>
                 <Table.Body  items={rows}>
-                  {maintenance.map((propal, index) => (
+                  {maintenance.map((book, index) => (
                     <Table.Row key={index}>
-                      <Table.Cell>{propal.store}</Table.Cell>
-                      <Table.Cell>{propal.commentar}</Table.Cell>
+                      <Table.Cell>{book.store}</Table.Cell>
+                      <Table.Cell>{book.commentar}</Table.Cell>
                       <Table.Cell>
                         {new Date(
-                          Number(propal.maintenanceDate)
+                          Number(book.maintenanceDate)
                         ).toLocaleDateString("fr-FR", {
                           year: "numeric",
                           month: "short",
