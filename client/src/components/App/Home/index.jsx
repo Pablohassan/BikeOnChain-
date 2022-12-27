@@ -90,7 +90,7 @@ function Home() {
           chacun de vérifier la validité de la chaîne. Notre application
           s'appuie sur la Blockchain publique POLYGON, vous offrant la
           confidentialité, la transparence et la sécurité d'une blockchain
-          publique éprouvé.
+          publique éprouvé
         </TextBlock>
         <TextBlock icon={certificateIcon}>
           Les NFT sont l'avenir de la propriété individulle, en effet, grâce à
@@ -105,7 +105,7 @@ function Home() {
           reparateur de confiance et permetez lui d'inscrire dans le carnet
           d'entretien associé au Nft, les travaux réalisé, Déclarer son vélo
           volé, ou en vente, faite le directement avec votre application
-          BikeOnChain.
+          BikeOnChain
         </TextBlock>
         <TextBlock icon={thiefIcon}>
           Bike on chain s'associé aux plus grandes plateformes de revente de
@@ -115,7 +115,7 @@ function Home() {
           d"un nft BoC, est verifiable dans notre moteur de recherche en
           saisisant simplement le numéro de série unique du vélo, en cas de vol
           par exemple,un état volé sera affiché sur le NFT et ce jsuqu' a ce que
-          son propriétaire le retrouve.
+          son propriétaire le retrouve
         </TextBlock>
       </div>
     </>
