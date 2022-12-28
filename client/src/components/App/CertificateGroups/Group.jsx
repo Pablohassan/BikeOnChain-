@@ -4,24 +4,29 @@ import NftCard from "../../common/NftCard";
 
 function Group({ id, amount, template, setTransferModal }) {
   return (
-    <div
+    <div 
       style={{
+       
+        margin:10,
         background: "whitesmoke",
-        padding: 20,
-        paddingTop: 0,
+        padding: 10,
+        paddingTop: 10,
         borderRadius: 10,
         display: "flex",
         flexDirection: "column",
-        height: 400,
+        height: 420,
+        minWidth:320
       }}
       title={template.description}
-    >
+    > 
+        <div>  <Text h3 size="$lg"> Numéro de la collection : {id}</Text></div>
       <div
         style={{
           display: "flex",
+          flexDirection:"column",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: 15,
+          gap: 5,
         }}
       >
         <div
@@ -31,25 +36,39 @@ function Group({ id, amount, template, setTransferModal }) {
             margin: "10px 0",
           }}
         >
-          <Badge color="primary" size="lg" placement="top-right">
-            {amount}
+          <Badge isSquared enableShadow disableOutline color="success" size="xs" placement="top-right">
+          <Text weight="bold" color="white">
+          {amount} vélos en stock
+          </Text>
           </Badge>
-          <Text size="$lg">Group {id}</Text>
+        
+
+        
         </div>
-        <Button
-          flat
-          size="xs"
-          onClick={() => setTransferModal({ groupId: id })}
-        >
-          Transférer à un revendeur
-        </Button>
+        
+       
       </div>
+      
       <NftCard
         {...template}
         isPressable={false}
         showStatus={false}
-        css={{ flex: 1 }}
+        css={{ flex: 1, pb:10 }}
+
       />
+       <Button
+
+       css={{margin:"10px"}}
+        auto ghost
+        rounded
+       
+          size="md"
+          color="secondary"
+          onClick={() => setTransferModal({ groupId: id })}
+        >
+          <Text color="secondary"  weight="bold"> Transférer vers revendeur</Text>
+        
+        </Button>
     </div>
   );
 }

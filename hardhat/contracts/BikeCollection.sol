@@ -58,13 +58,21 @@ contract BikeCollection is ERC721Enumerable, Ownable {
     event GroupUpdated(uint256 indexed id, uint256 amount);
     event StolenBike(uint256 indexed id, string stolen);
     event BikeOnSale(uint256 indexed id, string sale, uint256 dateUpForSale);
-    event AuthorizedMaintenance(address indexed _address);
+    event BikeTransferedService(
+        uint256 indexed id,
+        string indexed serial,
+        string status
+    );
+    event BikeOnService(uint256 indexed id, string status);
+    event BikeSold(uint256 indexed id, address indexed _address);
+    event AuthorizedMaintenance(address indexed _address, string status);
     event MaintenanceDone(
         uint256 indexed id,
         string store,
         string commentar,
         uint256 maintenanceDate
     );
+
     ////////////////////////////////////////////////////////////////
     // Modifiers
     ////////////////////////////////////////////////////////////////
@@ -234,6 +242,11 @@ contract BikeCollection is ERC721Enumerable, Ownable {
         _bikeByTokenId[tokenId].status = Status.InService;
 
         safeTransferFrom(from, to, tokenId, "");
+        emit BikeTransferedService(
+            tokenId,
+            serialNumber,
+            _statusToString(_bikeByTokenId[tokenId].status)
+        );
     }
 
     function _transfer(
@@ -251,6 +264,7 @@ contract BikeCollection is ERC721Enumerable, Ownable {
         );
 
         super._transfer(from, to, tokenId);
+        emit BikeSold(tokenId, to);
     }
 
     ////////////////////////////////////////////////////////////////
@@ -278,6 +292,10 @@ contract BikeCollection is ERC721Enumerable, Ownable {
         );
 
         _bikeByTokenId[tokenId].status = Status.InService;
+        emit BikeOnService(
+            tokenId,
+            _statusToString(_bikeByTokenId[tokenId].status)
+        );
     }
 
     function setOnSale(uint256 tokenId, uint256 dateUpForSale)
@@ -298,7 +316,10 @@ contract BikeCollection is ERC721Enumerable, Ownable {
         ifValidStatus(tokenId)
     {
         _bikeByTokenId[tokenId].status = Status.Maintenance;
-        emit AuthorizedMaintenance(maintaddr);
+        emit AuthorizedMaintenance(
+            maintaddr,
+            _statusToString(_bikeByTokenId[tokenId].status)
+        );
     }
 
     ////////////////////////////////////////////////////////////////
@@ -322,9 +343,8 @@ contract BikeCollection is ERC721Enumerable, Ownable {
             MaintenanceBook(_store, _commentar, _maintenanceDate, _mainteneur)
         );
 
-        emit MaintenanceDone(tokenId, _store, _commentar, _maintenanceDate);
-
         _bikeByTokenId[tokenId].status = Status.InService;
+        emit MaintenanceDone(tokenId, _store, _commentar, _maintenanceDate);
     }
 
     function _statusToString(Status status)
@@ -414,7 +434,7 @@ contract BikeCollection is ERC721Enumerable, Ownable {
             '"status": ',
             Strings.toString(uint8(bike.status)),
             ",",
-            '"external_link": "http://bike-on-chain.vercel.app/',
+            '"external_link": "https://bike-on-chain-4fc8m63gx-pablohassan.vercel.app/',
             Strings.toHexString(uint256(uint160(address(this))), 20),
             "/",
             Strings.toString(tokenId),

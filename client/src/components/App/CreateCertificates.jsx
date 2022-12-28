@@ -52,54 +52,99 @@ function CreateCertificates({ setLoading }) {
 
   return (
     <>
-    <div style={{
-
-background: `url(${bikesMotif})`,height:"100%", backgroundSize:'cover'
-
-
-    }}>
-      <Hero>
-        <Text h2 css={{color:'White', m: 0 }}>
-          Créez vos certificats NFT
-        </Text>
-      </Hero>
-      <div style={{ display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        margin:"auto",
-        maxWidth:"170px", minWidth:'150px',
-        backgroundColor:"transparent",borderRadius: "10px"}} >
-      <Form onSubmit={handleSubmit} submitLabel="Créer">
-        <Input css={{background:"white",p:"1px"}}
-          name="amount"
-          clearable
-          bordered
-          placeholder="Nombre"
-          type="number"
-          required
-        />
-        <Input css={{background:"white",p:"1px"}}name="brand" clearable bordered placeholder="Marque" required />
-        <Input css={{background:"white",p:"1px"}} name="model" clearable bordered placeholder="Modèle" required />
-        <Input css={{background:"white",p:"1px"}} name="typeOf" clearable bordered placeholder="Type" required />
-        <Input css={{background:"white",p:"1px"}} name="color" clearable bordered placeholder="Couleur" required />
-        <Input css={{background:"white",p:"1px"}}
-          name="description"
-          clearable
-          bordered
-          placeholder="Description"
-          required
-        />
-        <Input css={{background:"white",p:"1px"}} name="image" clearable bordered placeholder="Image" required />
-        <Input css={{background:"white",p:"1px"}}
-          name="buildYear"
-          clearable
-          bordered
-          placeholder="Année de fabrication"
-          type="number"
-          required
-        />
-      </Form>
-      </div>
+      <div
+        style={{
+          background: `url(${bikesMotif})`,
+          height: "100%",
+          backgroundSize: "cover",
+        }}
+      >
+        <Hero>
+          <Text h2 css={{ color: "White", m: 0 }}>
+            Créez vos certificats NFT
+          </Text>
+        </Hero>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            margin: "auto",
+            maxWidth: "170px",
+            minWidth: "150px",
+            backgroundColor: "transparent",
+            borderRadius: "10px",
+          }}
+        >
+          <Form onSubmit={handleSubmit} submitLabel="Créer">
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="amount"
+              clearable
+              bordered
+              placeholder="Nombre"
+              type="number"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="brand"
+              clearable
+              bordered
+              placeholder="Marque"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="model"
+              clearable
+              bordered
+              placeholder="Modèle"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="typeOf"
+              clearable
+              bordered
+              placeholder="Type"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="color"
+              clearable
+              bordered
+              placeholder="Couleur"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="description"
+              clearable
+              bordered
+              placeholder="Description"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="image"
+              clearable
+              bordered
+              placeholder="Image"
+              required
+            />
+            <Input
+              css={{ background: "white", p: "1px" }}
+              name="buildYear"
+              clearable
+              bordered
+              placeholder="Année de fabrication"
+              type="number"
+              required
+            />
+          </Form>
+        </div>
       </div>
     </>
   );

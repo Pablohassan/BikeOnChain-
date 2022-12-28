@@ -65,12 +65,13 @@ background: `url(${bikesMotif})`,height:"100%", width:"100%", backgroundSize:'co
         margin:"auto",
         backgroundColor:"transparent",borderRadius: "10px", maxWidth:"170px", minWidth:'150px'}} >
       <Form  onSubmit={handleSubmit} submitLabel="Créer">
-        <Input css={{background:"white",p:"1px"}} name="name" placeholder="Nom du fabriquant" clearable bordered  required />
+        <Input css={{background:"white",p:"1px"}} name="name" placeholder="Nom du fabriquant"  aria-label="name of entreprise" clearable bordered  required />
         <Input css={{background:"white",p:"1px"}}
           name="symbol"
           clearable
           bordered
           placeholder="Symbol exemple: BTC"
+          aria-label="Symbole of entreprise"
           required
         />
         <Input css={{background:"white",p:"1px"}}
@@ -78,6 +79,7 @@ background: `url(${bikesMotif})`,height:"100%", width:"100%", backgroundSize:'co
           clearable
           bordered
           placeholder="Adresse du fabriquant"
+          aria-label="Eth Adress of entreprise"
           required
         />
       </Form>

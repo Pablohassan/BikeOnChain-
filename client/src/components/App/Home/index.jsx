@@ -51,16 +51,17 @@ function Home() {
           <source src={video} type="video/mp4" />
         </video>
         <Text
-        shadow
+        shadow='0 2px 8px 2px rgb(104 112 118 / 0.09)'
           h1
           css={{
+           
             fontSize:"2em",
             maxW:"80%",
           shadow:"1px 2px 1px, $gray900",
             color: "WhiteSmoke",
             borderRadius: "4px",
             // background: "white",
-            padding: "5px 15px",
+            padding: "10px 15px",
           }}
         >   
         Sécurisez et donnez une vie digitale à votre vélo <br />
