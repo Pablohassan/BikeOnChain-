@@ -1,4 +1,4 @@
-import bikesMotif from "../../../assets/images/Monkey.png";
+
 import PropTypes from "prop-types";
 
 function Hero({ children, style }) {

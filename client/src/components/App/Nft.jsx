@@ -24,7 +24,7 @@ function Nft({ setLoading }) {
   const { collectionAddr, tokenId } = useParams();
   const [bike, setBike] = useState(null);
   const {
-    state: { getCollection, account },
+    state: { getCollection, account, web3, contract },
   } = useEth();
 
   const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
@@ -32,6 +32,9 @@ function Nft({ setLoading }) {
   const [showAddMainteurModal, setShowAddMainteurModal] = useState(false);
   const [showMaintenanceModal, setShowMaintenanceModal] = useState(false);
   const [maintenance, setMaintenance] = useState([]);
+  console.log(collectionAddr)
+  console.log(contract)
+  console.log(account)
 
   useEffect(() => {
     
@@ -61,7 +64,8 @@ function Nft({ setLoading }) {
     }
 
     fetch().finally(() => setLoading(false));
-  },[account, collectionAddr, getCollection, setLoading, tokenId] );
+   
+  },[setLoading, getCollection,collectionAddr, tokenId ,account] );
 
   ////////////////////////////////////////////////////////////////
   // Event Handlers
@@ -96,8 +100,11 @@ function Nft({ setLoading }) {
       }
 
       setLoading(false);
+      window.location.reload()
     };
   }
+
+ 
 
   async function handleTransfer(event) {
     if (bike.status == 4) return "You can't sell stolen bike";
@@ -106,6 +113,9 @@ function Nft({ setLoading }) {
     setLoading(true);
 
     try {
+      if (!web3.utils.isAddress(event.target.to.value)) {
+        alert("invalid address");
+      }
       const collection = await getCollection(collectionAddr);
 
       if (bike.status === "1") {
@@ -140,6 +150,9 @@ function Nft({ setLoading }) {
     setLoading(true);
 
     try {
+      if (!web3.utils.isAddress(event.target.to.value)) {
+        alert("invalid address");
+      }
       const collection = await getCollection(collectionAddr);
 
       await collection.methods
@@ -180,6 +193,7 @@ function Nft({ setLoading }) {
     }
 
     setLoading(false);
+    window.location.reload()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -228,7 +242,7 @@ function Nft({ setLoading }) {
         <Row>
           <Col>
             <Row justify="flex-end">
-              <Badge
+              <Badge isSquared
                 css={{ minWidth: "100px" }}
                 color={statusToColor(Number(bike.status))}
               >
@@ -324,10 +338,10 @@ function Nft({ setLoading }) {
             maxHeight: "100px", }}
           >
             <Card.Body>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+              <Text css={{ textAlign: "center" }} h4 weight="bold" size={13}>
                 Date de première vente
               </Text>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
+              <Text css={{ textAlign: "center" }} h4 weight="bold" size={12}>
                 {new Date(Number(bike.firstPurchaseDate)).toLocaleDateString(
                   "fr-FR",
                   {
@@ -344,10 +358,10 @@ function Nft({ setLoading }) {
             css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
           >
             <Card.Body>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={13}>
                 Numéro de série
               </Text>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={13}>
                 {bike.serialNumber ? bike.serialNumber : "N/A"}
               </Text>
             </Card.Body>
@@ -358,7 +372,7 @@ function Nft({ setLoading }) {
             css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
           >
             <Card.Body>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={13}>
                 Année de fabrication
               </Text>
               <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
@@ -372,10 +386,10 @@ function Nft({ setLoading }) {
             css={{ m: "1px", maxWidth: "250px", minWidth: "50px" }}
           >
             <Card.Body>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={13}>
                 Coleur
               </Text>
-              <Text css={{ textAlign: "center" }} h3 weight="bold" size={14}>
+              <Text css={{ textAlign: "center" }} h3 weight="bold" size={12}>
                 {bike.color}
               </Text>
             </Card.Body>
@@ -481,7 +495,7 @@ function Nft({ setLoading }) {
               auto
             >
               <Link
-                href={`https://testnets.opensea.io/assets/mumbai/${collectionAddr}/${tokenId}`}
+                href={`https://testnets.opensea.io/assets/goerli/${collectionAddr}/${tokenId}`}
               >
                 <Text
                   weight="bold"
@@ -502,7 +516,7 @@ function Nft({ setLoading }) {
               auto
             >
               <Link
-                href={`https://mumbai.polygonscan.com/address/${collectionAddr}`}
+                href={`https://goerli.etherscan.io/address/${account}`}
               >
                 <Text
                   weight="bold"
@@ -607,6 +621,7 @@ function Nft({ setLoading }) {
                 color={statusToColor(status)}
                 onClick={handleChangeStatus(status)}
               >
+
                 {statusToString(status)}
               </Button>
             ))}

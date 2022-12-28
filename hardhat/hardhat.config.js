@@ -2,7 +2,7 @@ require("dotenv").config();
 require("@nomicfoundation/hardhat-toolbox");
 require("hardhat-gas-reporter");
 
-const { PROVIDER_URL, PRIVATE_KEY } = process.env;
+const {PROVIDER_GOERLI_URL, PROVIDER_URL, PRIVATE_KEY } = process.env;
 
 module.exports = {
   solidity: {
@@ -21,6 +21,10 @@ module.exports = {
       url: PROVIDER_URL,
       accounts: [`0x${PRIVATE_KEY}`]
     },
+    goerli:{url: PROVIDER_GOERLI_URL,
+    accounts: [`0x${PRIVATE_KEY}`]
+
+    }
   },
   etherscan: {
     apiKey: process.env.POLYGONSCAN_API_KEY
