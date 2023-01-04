@@ -7,33 +7,33 @@ function Group({ id, amount, template, setTransferModal }) {
     <div 
       style={{
        
-        margin:10,
+        margin:15,
         background: "whitesmoke",
-        padding: 10,
-        paddingTop: 10,
+        padding: 12,
         borderRadius: 10,
         display: "flex",
         flexDirection: "column",
-        height: 420,
-        minWidth:320
+        height: 500,
+        minWidth:300,
+       
       }}
       title={template.description}
     > 
-        <div>  <Text h3 size="$lg"> Numéro de la collection : {id}</Text></div>
+        <div>  <Text h3 size="$lg" css={{textAlign:"center"}}> Numéro de la collection : {id}</Text></div>
       <div
         style={{
           display: "flex",
           flexDirection:"column",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: 5,
+          gap: 2,
         }}
       >
         <div
           style={{
             display: "flex",
-            gap: 10,
-            margin: "10px 0",
+            gap: 12,
+            margin: "10px 2px",
           }}
         >
           <Badge isSquared enableShadow disableOutline color="success" size="xs" placement="top-right">

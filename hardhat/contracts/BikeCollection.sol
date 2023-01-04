@@ -31,7 +31,7 @@ contract BikeCollection is ERC721Enumerable, Ownable {
     // Structs
     ////////////////////////////////////////////////////////////////
     struct Bike {
-        uint256 id;
+        uint256 BikeId;
         string brand;
         string model;
         string typeOf;
@@ -54,20 +54,24 @@ contract BikeCollection is ERC721Enumerable, Ownable {
     // Events
     ////////////////////////////////////////////////////////////////
 
-    event GroupCreated(uint256 indexed id, uint16 amount, Bike template);
-    event GroupUpdated(uint256 indexed id, uint256 amount);
-    event StolenBike(uint256 indexed id, string stolen);
-    event BikeOnSale(uint256 indexed id, string sale, uint256 dateUpForSale);
+    event GroupCreated(uint256 indexed grId, uint16 amount, Bike template);
+    event GroupUpdated(uint256 indexed grUpId, uint256 amount);
+    event StolenBike(uint256 indexed StlnId, string stolen);
+    event BikeOnSale(
+        uint256 indexed SaleId,
+        string sale,
+        uint256 dateUpForSale
+    );
     event BikeTransferedService(
-        uint256 indexed id,
+        uint256 indexed trServiceId,
         string indexed serial,
         string status
     );
-    event BikeOnService(uint256 indexed id, string status);
+    event BikeOnService(uint256 indexed Onserviceid, string status);
     event BikeSold(uint256 indexed id, address indexed _address);
     event AuthorizedMaintenance(address indexed _address, string status);
     event MaintenanceDone(
-        uint256 indexed id,
+        uint256 indexed MntnId,
         string store,
         string commentar,
         uint256 maintenanceDate

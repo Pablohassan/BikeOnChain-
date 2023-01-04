@@ -14,6 +14,9 @@ function CertificateGroups({ setLoading }) {
   const [groupsById, setGroupsById] = useState({});
   const [transferModal, setTransferModal] = useState(null);
 
+
+  console.log(groupsById)
+
   useEffect(() => {
     async function fetch() {
       const collection = await getCollection();
@@ -27,16 +30,16 @@ function CertificateGroups({ setLoading }) {
       });
 
       const groupsObj = createdEvents.reduce((acc, event) => {
-        const { id, amount, template } = event.returnValues;
-        acc[id] = { id: Number(id), amount: Number(amount), template };
+        const { grId, amount, template } = event.returnValues;
+        acc[grId] = { id: Number(grId), amount: Number(amount), template };
         return acc;
       }, {});
 
       updatedEvents.forEach((event) => {
-        const { id, amount } = event.returnValues;
-        groupsObj[Number(id)].amount = Number(amount);
+        const { grUpId, amount } = event.returnValues;
+        groupsObj[Number(grUpId)].amount = Number(amount);
       });
-
+      
       setGroupsById(groupsObj);
     }
 
@@ -49,10 +52,10 @@ function CertificateGroups({ setLoading }) {
     async function listener() {
       const collection = await getCollection();
       emitter = collection.events.GroupUpdated().on("data", (event) => {
-        const { id, amount } = event.returnValues;
+        const { grUpId, amount } = event.returnValues;
         setGroupsById((prev) => ({
           ...prev,
-          [Number(id)]: { ...prev[id], amount: Number(amount) },
+          [Number(grUpId)]: { ...prev[grUpId], amount: Number(amount) },
         }));
       });
     }
@@ -103,17 +106,17 @@ function CertificateGroups({ setLoading }) {
   return (
     <>
       <Hero>
-        <Text h2 css={{ m: 0 }}>
+        <Text h2 css={{ m: 1 }}>
           Mes groupes de certificats
         </Text>
       </Hero>
       <Grid.Container gap={2} justify="flex-start">
         {Object.values(groupsById)
           .filter(({ amount }) => amount > 0)
-          .map(({ id, amount, template }) => (
-            <Grid xs={4} key={id}>
+          .map(({ BikeId, amount, template }) => (
+            <Grid xs={3} key={BikeId}>
               <Group
-                id={id}
+                id={BikeId}
                 amount={amount}
                 template={template}
                 setTransferModal={setTransferModal}
