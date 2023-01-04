@@ -47,10 +47,7 @@ function Certificates() {
 
       const tokenIds = [];
 
-      try{  
-
-      
-      
+      try{        
         for (let i = 0; i < Number(total); i++) {
           const id = await collection.methods
             .tokenOfOwnerByIndex(account, i)

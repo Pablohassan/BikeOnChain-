@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { statusToColor, statusToString } from "../../utils/bike";
 
 function NftCard({
-  id,
+  BikeId,
   collectionAddr,
   brand,
   image,
@@ -24,7 +24,7 @@ function NftCard({
         ...css,
       }}
       onClick={
-        collectionAddr ? () => navigate(`/${collectionAddr}/${id}`) : null
+        collectionAddr ? () => navigate(`/${collectionAddr}/${BikeId}`) : null
       }
     >
       <Card.Body
@@ -64,7 +64,7 @@ function NftCard({
 }
 
 NftCard.propTypes = {
-  id: PropTypes.string.isRequired,
+  BikeId: PropTypes.string.isRequired,
   collectionAddr: PropTypes.string,
   brand: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
