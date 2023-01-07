@@ -113,10 +113,10 @@ function CertificateGroups({ setLoading }) {
       <Grid.Container gap={2} justify="flex-start">
         {Object.values(groupsById)
           .filter(({ amount }) => amount > 0)
-          .map(({ BikeId, amount, template }) => (
-            <Grid xs={3} key={BikeId}>
+          .map(({ id, amount, template }) => (
+            <Grid xs={3} key={id}>
               <Group
-                id={BikeId}
+                id={id}
                 amount={amount}
                 template={template}
                 setTransferModal={setTransferModal}
