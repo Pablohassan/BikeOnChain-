@@ -438,7 +438,7 @@ contract BikeCollection is ERC721Enumerable, Ownable {
             '"status": ',
             Strings.toString(uint8(bike.status)),
             ",",
-            '"external_link": "https://bike-on-chain-4fc8m63gx-pablohassan.vercel.app/',
+            '"external_link": "https://bikeonchain-ivutb3xur-pablohassan.vercel.app/',
             Strings.toHexString(uint256(uint160(address(this))), 20),
             "/",
             Strings.toString(tokenId),
